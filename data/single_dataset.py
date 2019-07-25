@@ -93,13 +93,13 @@ class SingleDataset(BaseDataset):
                     soft_border_mask4.append(torch.Tensor(soft_border_mask).unsqueeze(0))
                     item['soft_'+regions[i]+'_mask'] = soft_border_mask4[i]
             for i in range(4):
-                item[regions[i]+'_A'] = A[:,center[i,1]-rhs[i]/2:center[i,1]+rhs[i]/2,center[i,0]-rws[i]/2:center[i,0]+rws[i]/2]
+                item[regions[i]+'_A'] = A[:,int(center[i,1]-rhs[i]/2):int(center[i,1]+rhs[i]/2),int(center[i,0]-rws[i]/2):int(center[i,0]+rws[i]/2)]
                 if self.opt.soft_border:
                     item[regions[i]+'_A'] = item[regions[i]+'_A'] * soft_border_mask4[i].repeat(input_nc/output_nc,1,1)
             
             mask = torch.ones([output_nc,A.shape[1],A.shape[2]]) # mask out eyes, nose, mouth
             for i in range(4):
-                mask[:,center[i,1]-rhs[i]/2:center[i,1]+rhs[i]/2,center[i,0]-rws[i]/2:center[i,0]+rws[i]/2] = 0
+                mask[:,int(center[i,1]-rhs[i]/2):int(center[i,1]+rhs[i]/2),int(center[i,0]-rws[i]/2):int(center[i,0]+rws[i]/2)] = 0
             if self.opt.soft_border:
                 imgsize = self.opt.fineSize
                 maskn = mask[0].numpy()
@@ -130,9 +130,10 @@ class SingleDataset(BaseDataset):
             im_bg = Image.open(bgpath)
             mask2 = transforms.ToTensor()(im_bg) # mask out background
             mask2 = (mask2 >= 0.5).float()
-
-            hair_A = (A/2+0.5) * mask.repeat(input_nc/output_nc,1,1) * mask2.repeat(input_nc/output_nc,1,1) * 2 - 1
-            bg_A = (A/2+0.5) * (torch.ones(mask2.shape)-mask2).repeat(input_nc/output_nc,1,1) * 2 - 1
+            # hair_A = (A/2+0.5) * mask.repeat(input_nc/output_nc,1,1) * mask2.repeat(input_nc/output_nc,1,1) * 2 - 1
+            # bg_A = (A/2+0.5) * (torch.ones(mask2.shape)-mask2).repeat(input_nc/output_nc,1,1) * 2 - 1
+            hair_A = (A/2+0.5) * mask.repeat(3,1,1) * mask2.repeat(3,1,1) * 2 - 1
+            bg_A = (A/2+0.5) * (torch.ones(mask2.shape)-mask2).repeat(3,1,1) * 2 - 1
             item['hair_A'] = hair_A
             item['bg_A'] = bg_A
             item['mask'] = mask
