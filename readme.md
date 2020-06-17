@@ -6,7 +6,7 @@ We provide PyTorch implementations for our CVPR 2019 paper "APDrawingGAN: Genera
 This project generates artistic portrait drawings from face photos using a GAN-based model.
 You may find useful information in [preprocessing steps](preprocess/readme.md) and [training/testing tips](docs/tips.md).
 
-[[Paper]](http://openaccess.thecvf.com/content_CVPR_2019/html/Yi_APDrawingGAN_Generating_Artistic_Portrait_Drawings_From_Face_Photos_With_Hierarchical_CVPR_2019_paper.html) [[Demo]](https://face.lol)
+[[Paper]](http://openaccess.thecvf.com/content_CVPR_2019/html/Yi_APDrawingGAN_Generating_Artistic_Portrait_Drawings_From_Face_Photos_With_Hierarchical_CVPR_2019_paper.html) [[Demo]](https://face-lol.github.io/)
 
 
 ## Our Proposed Framework
@@ -44,7 +44,7 @@ If you use this code for your research, please cite our paper.
 
 ## Prerequisites
 - Linux or macOS
-- Python 2 or 3
+- Python 2.7
 - CPU or NVIDIA GPU + CUDA CuDNN
 
 
