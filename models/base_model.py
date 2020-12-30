@@ -352,8 +352,8 @@ class BaseModel():
     
     def getLocalParts(self,fakeAB):
         bs,nc,_,_ = fakeAB.shape #dtype torch.float32
-        ncr = nc / self.opt.output_nc
-        ratio = self.opt.fineSize / 256
+        ncr = nc // self.opt.output_nc
+        ratio = self.opt.fineSize // 256
         EYE_H = self.opt.EYE_H * ratio
         EYE_W = self.opt.EYE_W * ratio
         NOSE_H = self.opt.NOSE_H * ratio
@@ -366,10 +366,10 @@ class BaseModel():
         mouth = torch.ones((bs,nc,MOUTH_H,MOUTH_W)).to(self.device)
         for i in range(bs):
             center = self.center[i]
-            eyel[i] = fakeAB[i,:,center[0,1]-EYE_H/2:center[0,1]+EYE_H/2,center[0,0]-EYE_W/2:center[0,0]+EYE_W/2]
-            eyer[i] = fakeAB[i,:,center[1,1]-EYE_H/2:center[1,1]+EYE_H/2,center[1,0]-EYE_W/2:center[1,0]+EYE_W/2]
-            nose[i] = fakeAB[i,:,center[2,1]-NOSE_H/2:center[2,1]+NOSE_H/2,center[2,0]-NOSE_W/2:center[2,0]+NOSE_W/2]
-            mouth[i] = fakeAB[i,:,center[3,1]-MOUTH_H/2:center[3,1]+MOUTH_H/2,center[3,0]-MOUTH_W/2:center[3,0]+MOUTH_W/2]
+            eyel[i] = fakeAB[i,:,center[0,1]-EYE_H//2:center[0,1]+EYE_H//2,center[0,0]-EYE_W//2:center[0,0]+EYE_W//2]
+            eyer[i] = fakeAB[i,:,center[1,1]-EYE_H//2:center[1,1]+EYE_H//2,center[1,0]-EYE_W//2:center[1,0]+EYE_W//2]
+            nose[i] = fakeAB[i,:,center[2,1]-NOSE_H//2:center[2,1]+NOSE_H//2,center[2,0]-NOSE_W//2:center[2,0]+NOSE_W//2]
+            mouth[i] = fakeAB[i,:,center[3,1]-MOUTH_H//2:center[3,1]+MOUTH_H//2,center[3,0]-MOUTH_W//2:center[3,0]+MOUTH_W//2]
         hair = (fakeAB/2+0.5) * self.mask.repeat(1,ncr,1,1) * self.mask2.repeat(1,ncr,1,1) * 2 - 1
         bg = (fakeAB/2+0.5) * (torch.ones(fakeAB.shape).to(self.device)-self.mask2.repeat(1,ncr,1,1)) * 2 - 1
         return eyel, eyer, nose, mouth, hair, bg

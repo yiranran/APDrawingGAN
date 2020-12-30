@@ -34,7 +34,7 @@ class APDrawingGANModel(BaseModel):
             self.loss_names.append('G_chamfer')
             self.loss_names.append('G_chamfer2')
         self.loss_names.append('G')
-        print 'loss_names', self.loss_names
+        print('loss_names', self.loss_names)
         # specify the images you want to save/display. The program will call base_model.get_current_visuals
         self.visual_names = ['real_A', 'fake_B', 'real_B']
         if self.opt.use_local:
@@ -45,7 +45,7 @@ class APDrawingGANModel(BaseModel):
             self.visual_names += ['dt1', 'dt2', 'dt1gt', 'dt2gt']
         if not self.isTrain and self.opt.save2:
             self.visual_names = ['real_A', 'fake_B']
-        print 'visuals', self.visual_names
+        print('visuals', self.visual_names)
         # specify the models you want to save to the disk. The program will call base_model.save_networks and base_model.load_networks
         if self.isTrain:
             self.model_names = ['G', 'D']
@@ -58,20 +58,20 @@ class APDrawingGANModel(BaseModel):
             self.auxiliary_model_names = []
         if self.opt.use_local:
             self.model_names += ['GLEyel','GLEyer','GLNose','GLMouth','GLHair','GLBG','GCombine']
-        print 'model_names', self.model_names
-        print 'auxiliary_model_names', self.auxiliary_model_names
+        print('model_names', self.model_names)
+        print('auxiliary_model_names', self.auxiliary_model_names)
         # define networks (both generator and discriminator)
         self.netG = networks.define_G(opt.input_nc, opt.output_nc, opt.ngf, opt.netG, opt.norm,
                                       not opt.no_dropout, opt.init_type, opt.init_gain, self.gpu_ids,
                                       opt.nnG)
-        print 'netG', opt.netG
+        print('netG', opt.netG)
 
         if self.isTrain:
             # define a discriminator; conditional GANs need to take both input and output images; Therefore, #channels for D is input_nc + output_nc
             use_sigmoid = opt.no_lsgan
             self.netD = networks.define_D(opt.input_nc + opt.output_nc, opt.ndf, opt.netD,
                                           opt.n_layers_D, opt.norm, use_sigmoid, opt.init_type, opt.init_gain, self.gpu_ids)
-            print 'netD', opt.netD, opt.n_layers_D
+            print('netD', opt.netD, opt.n_layers_D)
             if self.opt.discriminator_local:
                 self.netDLEyel = networks.define_D(opt.input_nc + opt.output_nc, opt.ndf, opt.netD,
                                           opt.n_layers_D, opt.norm, use_sigmoid, opt.init_type, opt.init_gain, self.gpu_ids)
