@@ -8,6 +8,8 @@ You may find useful information in [preprocessing steps](preprocess/readme.md) a
 
 [[Paper]](http://openaccess.thecvf.com/content_CVPR_2019/html/Yi_APDrawingGAN_Generating_Artistic_Portrait_Drawings_From_Face_Photos_With_Hierarchical_CVPR_2019_paper.html) [[Demo]](https://face-lol.github.io/)
 
+[[Jittor implementation]](https://github.com/yiranran/APDrawingGAN-Jittor)
+
 
 ## Our Proposed Framework
  
